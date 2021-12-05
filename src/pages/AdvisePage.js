@@ -1,57 +1,24 @@
 import { Button, message, Steps } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getOneCauHinh } from "../api";
 import CheckboxCustom from "../components/CheckboxCustom";
 import HomeLayout from "../components/HomeLayout";
 import RadioCustom from "../components/RadioCustom";
 
 const { Step } = Steps;
 
-const demo = [
-  { value: "Văn phòng", key: 1 },
-  { value: "Chơi game", key: 2 },
-  { value: "Đồ hoạ - kỹ thuật", key: 3 },
-];
-const demo2 = [
-  { value: "Asus", key: 1 },
-  { value: "Dell", key: 2 },
-  { value: "Apple", key: 3 },
-];
-const demo3 = [
-  { value: "13 inches", key: 1 },
-  { value: "14 inches", key: 2 },
-  { value: "16 inches", key: 3 },
-];
-const demo4 = [
-  { value: "5 triệu", key: 1 },
-  { value: "10 triệu", key: 2 },
-  { value: "20 triệu", key: 3 },
-];
-
-const steps = [
-  {
-    title: "Mục đích",
-    content: <RadioCustom array={demo} />,
-  },
-  {
-    title: "Hãng sản xuất",
-    content: <RadioCustom array={demo2} />,
-  },
-  {
-    title: "Kích thước màn hình",
-    content: <RadioCustom array={demo3} />,
-  },
-  {
-    title: "Giá tiền",
-    content: <RadioCustom array={demo4} />,
-  },
-  {
-    title: "Tính năng khác",
-    content: <CheckboxCustom />,
-  },
-];
-
 export default function AdvisePage() {
-  const [current, setCurrent] = React.useState(0);
+  const [current, setCurrent] = useState(0);
+  const [stepOne, setStepOne] = useState([]);
+  const [stepTwo, setStepTwo] = useState([]);
+  const [stepThree, setStepThree] = useState([]);
+  const [stepFour, setStepFour] = useState([]);
+  const [stepFive, setStepFive] = useState([]);
+  const [valueOne, setValueOne] = useState();
+  const [valueTwo, setValueTwo] = useState();
+  const [valueThree, setValueThree] = useState();
+  const [valueFour, setValueFour] = useState();
+  const [valueFive, setValueFive] = useState([]);
 
   const next = () => {
     setCurrent(current + 1);
@@ -60,6 +27,47 @@ export default function AdvisePage() {
   const prev = () => {
     setCurrent(current - 1);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const cauhinh1 = await getOneCauHinh("MD");
+      const cauhinh2 = await getOneCauHinh("H");
+      const cauhinh3 = await getOneCauHinh("MH");
+      const cauhinh4 = await getOneCauHinh("G");
+      const cauhinh5 = await getOneCauHinh("K");
+      setStepOne(cauhinh1.data.data);
+      setStepTwo(cauhinh2.data.data);
+      setStepThree(cauhinh3.data.data);
+      setStepFour(cauhinh4.data.data);
+      setStepFive(cauhinh5.data.data);
+    };
+    fetchData();
+  }, []);
+
+  const steps = [
+    {
+      title: "Mục đích",
+      content: <RadioCustom setValue={setValueOne} array={stepOne} />,
+    },
+    {
+      title: "Hãng sản xuất",
+      content: <RadioCustom setValue={setValueTwo} array={stepTwo} />,
+    },
+    {
+      title: "Kích thước màn hình",
+      content: <RadioCustom setValue={setValueThree} array={stepThree} />,
+    },
+    {
+      title: "Giá tiền",
+      content: <RadioCustom setValue={setValueFour} array={stepFour} />,
+    },
+    {
+      title: "Tính năng khác",
+      content: <CheckboxCustom setValue={setValueFive} array={stepFive} />,
+    },
+  ];
+
+  console.log(valueOne, valueTwo, valueThree, valueFour, valueFive);
 
   return (
     <HomeLayout>
