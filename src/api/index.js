@@ -2,8 +2,32 @@ import axios from "axios";
 
 const baseUrl = "http://localhost:5000";
 
-export const getExam = (params) => {
-  return axios.get(`${baseUrl}/api/exam/${params}`, {
+export const getRule = () => {
+  return axios.get(`${baseUrl}/api/rules`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+
+export const getCauhinh = () => {
+  return axios.get(`${baseUrl}/api/cauhinhs`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+
+export const deleteRule = (key) => {
+  return axios.delete(`${baseUrl}/api/rules/${key}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+
+export const getOneCauHinh = (key) => {
+  return axios.get(`${baseUrl}/api/cauhinh?key=${key}`, {
     headers: {
       "Content-Type": "application/json",
     },

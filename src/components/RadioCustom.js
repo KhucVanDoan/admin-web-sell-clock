@@ -5,8 +5,8 @@ export default function RadioCustom(props) {
   const [value, setValue] = React.useState(1);
 
   const onChange = (e) => {
-    console.log("radio checked", e.target.value);
     setValue(e.target.value);
+    props.setValue(e.target.value);
   };
   return (
     <Radio.Group onChange={onChange} value={value}>
