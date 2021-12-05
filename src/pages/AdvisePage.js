@@ -1,8 +1,8 @@
+import { Button, message, Steps } from "antd";
 import React from "react";
-import HomeLayout from "../components/HomeLayout";
-import { Steps, Button, message } from "antd";
-import RadioCustom from "../components/RadioCustom";
 import CheckboxCustom from "../components/CheckboxCustom";
+import HomeLayout from "../components/HomeLayout";
+import RadioCustom from "../components/RadioCustom";
 
 const { Step } = Steps;
 
