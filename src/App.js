@@ -2,6 +2,7 @@ import { useRoutes } from "react-router-dom";
 import "./App.css";
 import AdvisePage from "./pages/AdvisePage";
 import LaptopPage from "./pages/LaptopPage";
+import RulePage from "./pages/RulePage";
 
 const routes = [
   {
@@ -11,6 +12,10 @@ const routes = [
   {
     path: "/laptop",
     element: <LaptopPage />,
+  },
+  {
+    path: "/rule",
+    element: <RulePage />,
   },
 ];
 

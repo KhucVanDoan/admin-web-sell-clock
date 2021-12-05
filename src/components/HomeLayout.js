@@ -43,7 +43,7 @@ export default function HomeLayout({ children }) {
               Cấu hình
             </Menu.Item>
             <Menu.Item key="11" icon={<ContainerOutlined />}>
-              Tập luật
+              <Link to="/rule">Tập luật</Link>
             </Menu.Item>
           </Menu.SubMenu>
           <Menu.Item key="3" icon={<InfoCircleOutlined />}>
