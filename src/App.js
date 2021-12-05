@@ -4,6 +4,7 @@ import AdvisePage from "./pages/AdvisePage";
 import RulePage from "./pages/RulePage";
 import SearchCpu from "./pages/SearchCpu";
 import SearchLaptop from "./pages/SearchLaptop";
+import Info from "./pages/Info";
 
 const routes = [
   {
@@ -24,8 +25,12 @@ const routes = [
     element: <SearchLaptop />,
   },
   {
-    path: "/cpu",
+    path: "/cauhinh",
     element: <SearchCpu />,
+  },
+  {
+    path: "/thongtin",
+    element: <Info />,
   },
 ];
 

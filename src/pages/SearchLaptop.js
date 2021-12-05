@@ -28,7 +28,7 @@ export default function SearchLaptop() {
 
   return (
     <HomeLayout>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      {/* <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div
           style={{
             display: "flex",
@@ -64,7 +64,8 @@ export default function SearchLaptop() {
         <Button type="primary">Tìm</Button>
         <Button type="primary">Thêm</Button>
         <Button type="primary">Sửa</Button>
-      </div>
+      </div> */}
+      <h2 style={{ textAlign: "center" }}>Danh sách laptop</h2>
       <Table columns={columns} dataSource={laptop} />
     </HomeLayout>
   );

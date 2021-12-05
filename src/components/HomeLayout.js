@@ -40,14 +40,14 @@ export default function HomeLayout({ children }) {
               <Link to="/laptop">Laptop</Link>
             </Menu.Item>
             <Menu.Item key="10" icon={<ContainerOutlined />}>
-              Cấu hình
+              <Link to="/cauhinh">Cấu hình</Link>
             </Menu.Item>
             <Menu.Item key="11" icon={<ContainerOutlined />}>
               <Link to="/rule">Tập luật</Link>
             </Menu.Item>
           </Menu.SubMenu>
           <Menu.Item key="3" icon={<InfoCircleOutlined />}>
-            Thông tin
+            <Link to="/thongtin">Thông tin</Link>
           </Menu.Item>
         </Menu>
       </Sider>

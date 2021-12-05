@@ -28,7 +28,7 @@ export default function SearchCpu() {
 
   return (
     <HomeLayout>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      {/* <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div
           style={{
             display: "flex",
@@ -65,7 +65,8 @@ export default function SearchCpu() {
         <Button type="primary">Thêm</Button>
         <Button type="primary">Sửa</Button>
         <Button type="primary">Hủy bỏ</Button>
-      </div>
+      </div> */}
+      <h2 style={{ textAlign: "center" }}>Danh sách cấu hình</h2>
       <Table columns={columns} dataSource={cpu} />
     </HomeLayout>
   );
