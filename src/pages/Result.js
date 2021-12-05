@@ -1,5 +1,6 @@
 import { Button, Col, Image, Row, Table } from "antd";
 import React from "react";
+import HomeLayout from "../components/HomeLayout";
 
 export default function Result() {
   const columns = [
@@ -37,7 +38,7 @@ export default function Result() {
     },
   ];
   return (
-    <div>
+    <HomeLayout>
       <h2>Tên laptop</h2>
       <Row>
         <Col span={12}>
@@ -65,6 +66,6 @@ export default function Result() {
           Làm Lại
         </Button>
       </div>
-    </div>
+    </HomeLayout>
   );
 }

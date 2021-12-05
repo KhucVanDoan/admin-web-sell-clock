@@ -10,6 +10,20 @@ export const getExam = (params) => {
   });
 };
 
+export const getLaptop = (params) => {
+  return axios.get(`${baseUrl}/api/laptops`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+export const getCpu = (params) => {
+  return axios.get(`${baseUrl}/api/cauhinhs`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
 export const postAnswer = (questionId, resultId, answerId) => {
   return axios.post(
     `${baseUrl}/api/answer/submit`,

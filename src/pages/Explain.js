@@ -1,5 +1,6 @@
 import { Button, Table, Tag } from "antd";
 import React from "react";
+import HomeLayout from "../components/HomeLayout";
 
 export default function Explain() {
   const columns = [
@@ -48,24 +49,10 @@ export default function Explain() {
       address: "New York No. 1 Lake Park",
       tags: ["nice", "developer"],
     },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-      tags: ["cool", "teacher"],
-    },
   ];
 
   return (
-    <div>
+    <HomeLayout>
       <h1>
         Dựa vào những thông tin bạn vừa chọn ta có bảng giải thích bằng thuật
         toán suy diễn như sau
@@ -75,6 +62,6 @@ export default function Explain() {
         <Button type="primary">Reset</Button>
       </div>
       <Table columns={columns} dataSource={data} />
-    </div>
+    </HomeLayout>
   );
 }

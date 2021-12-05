@@ -1,20 +1,33 @@
 import { Button, Input, Table } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getLaptop } from "../api";
+import HomeLayout from "../components/HomeLayout";
 
 export default function SearchLaptop() {
+  const [laptop, setLaptop] = useState([]);
+  useEffect(() => {
+    async function fetchLaptop() {
+      const response = await getLaptop();
+      setLaptop(response.data.data);
+      console.log(response.data.data);
+    }
+    fetchLaptop();
+  }, []);
   const columns = [
     {
       title: "ID",
-      dataIndex: "ID",
+      dataIndex: "key",
+      key: "key",
     },
     {
       title: "Ten Laptop",
-      dataIndex: "age",
+      dataIndex: "name",
+      key: "name",
     },
   ];
-  const data = [];
+
   return (
-    <div>
+    <HomeLayout>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div
           style={{
@@ -52,7 +65,7 @@ export default function SearchLaptop() {
         <Button type="primary">Thêm</Button>
         <Button type="primary">Sửa</Button>
       </div>
-      <Table columns={columns} dataSource={data} />
-    </div>
+      <Table columns={columns} dataSource={laptop} />
+    </HomeLayout>
   );
 }

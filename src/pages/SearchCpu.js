@@ -1,20 +1,33 @@
 import { Button, Input, Table } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getCpu } from "../api";
+import HomeLayout from "../components/HomeLayout";
 
 export default function SearchCpu() {
+  const [cpu, setCpu] = useState([]);
+  useEffect(() => {
+    async function fetchLaptop() {
+      const response = await getCpu();
+      setCpu(response.data.data);
+      console.log(response.data.data);
+    }
+    fetchLaptop();
+  }, []);
   const columns = [
     {
       title: "ID",
-      dataIndex: "ID",
+      dataIndex: "key",
+      key: "key",
     },
     {
       title: "Mo ta",
-      dataIndex: "age",
+      dataIndex: "value",
+      key: "value",
     },
   ];
-  const data = [];
+
   return (
-    <div>
+    <HomeLayout>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div
           style={{
@@ -53,7 +66,7 @@ export default function SearchCpu() {
         <Button type="primary">Sửa</Button>
         <Button type="primary">Hủy bỏ</Button>
       </div>
-      <Table columns={columns} dataSource={data} />
-    </div>
+      <Table columns={columns} dataSource={cpu} />
+    </HomeLayout>
   );
 }
