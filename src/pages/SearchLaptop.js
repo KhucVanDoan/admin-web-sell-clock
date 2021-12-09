@@ -1,4 +1,4 @@
-import { Button, Input, Table } from "antd";
+import { Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { getLaptop } from "../api";
 import HomeLayout from "../components/HomeLayout";

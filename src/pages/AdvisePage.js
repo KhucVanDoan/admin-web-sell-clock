@@ -1,12 +1,12 @@
-import { Button, message, Steps } from "antd";
+import { Button, Col, Image, Row, Steps } from "antd";
+import Modal from "antd/lib/modal/Modal";
 import React, { useEffect, useState } from "react";
-import { getOneCauHinh } from "../api";
+import { getketQua, getOneCauHinh } from "../api";
 import CheckboxCustom from "../components/CheckboxCustom";
 import HomeLayout from "../components/HomeLayout";
 import RadioCustom from "../components/RadioCustom";
 
 const { Step } = Steps;
-
 export default function AdvisePage() {
   const [current, setCurrent] = useState(0);
   const [stepOne, setStepOne] = useState([]);
@@ -19,6 +19,7 @@ export default function AdvisePage() {
   const [valueThree, setValueThree] = useState();
   const [valueFour, setValueFour] = useState();
   const [valueFive, setValueFive] = useState([]);
+  const [result, setResult] = useState({});
 
   const next = () => {
     setCurrent(current + 1);
@@ -43,7 +44,21 @@ export default function AdvisePage() {
     };
     fetchData();
   }, []);
+  const handleClick = async () => {
+    const response = await getketQua(
+      `${valueOne} ^ ${valueTwo} ^ ${valueThree} ^ ${valueFour} ^ ${valueFive}`
+    );
+    setResult(response.data.laptop[0]);
 
+    if (response.data.success) {
+      setIsModalVisible(true);
+    }
+  };
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   const steps = [
     {
       title: "Mục đích",
@@ -67,8 +82,6 @@ export default function AdvisePage() {
     },
   ];
 
-  console.log(valueOne, valueTwo, valueThree, valueFour, valueFive);
-
   return (
     <HomeLayout>
       <h1 style={{ textAlign: "center", paddingBottom: 30 }}>
@@ -87,10 +100,7 @@ export default function AdvisePage() {
           </Button>
         )}
         {current === steps.length - 1 && (
-          <Button
-            type="primary"
-            onClick={() => message.success("Processing complete!")}
-          >
+          <Button type="primary" onClick={handleClick}>
             Hoàn thành
           </Button>
         )}
@@ -100,6 +110,78 @@ export default function AdvisePage() {
           </Button>
         )}
       </div>
+
+      <Modal
+        footer={null}
+        title=""
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        width={900}
+      >
+        {result ? (
+          <div>
+            <h2>{result.name}</h2>
+            <Row>
+              <Col span={12}>
+                <Image
+                  width={400}
+                  src={result.avatar}
+                  style={{ textAlign: "center" }}
+                />
+              </Col>
+              <Col span={12}>
+                <div style={{ marginLeft: 20 }}>
+                  <p>{result.price}</p>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <p>Thông tin cấu hình</p>
+                  </div>
+                  <div>
+                    <table>
+                      <tr>
+                        <th>RAM</th>
+                        <td>{result.RAM}</td>
+                      </tr>
+                      <tr>
+                        <th>CPU</th>
+                        <td>{result.CPU}</td>
+                      </tr>
+                      <tr>
+                        <th>ROM</th>
+                        <td>{result.ROM}</td>
+                      </tr>
+                      <tr>
+                        <th>screen</th>
+                        <td>{result.screen}</td>
+                      </tr>
+                      <tr>
+                        <th>Card</th>
+                        <td>{result.card}</td>
+                      </tr>
+                      <tr>
+                        <th>Hệ điều hành</th>
+                        <td>{result.os}</td>
+                      </tr>
+                      <tr>
+                        <th>Kích thước</th>
+                        <td>{result.size}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </div>
+        ) : (
+          <h2>Không tìm được máy tính theo yêu cầu của bạn</h2>
+        )}
+        <div style={{ marginTop: 10 }}>
+          <Button type="primary" style={{ marginLeft: 40 }}>
+            Giải thích
+          </Button>
+        </div>
+      </Modal>
     </HomeLayout>
   );
 }

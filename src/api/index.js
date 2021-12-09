@@ -48,6 +48,17 @@ export const getCpu = (params) => {
     },
   });
 };
+export const getketQua = (params) => {
+  return axios.post(
+    `${baseUrl}/api/tu-van/`,
+    { gt: params },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+};
 export const postAnswer = (questionId, resultId, answerId) => {
   return axios.post(
     `${baseUrl}/api/answer/submit`,
