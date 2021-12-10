@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import HomeLayout from "../components/HomeLayout";
-import { Select, Checkbox, Row, Col, Button, Table, Space } from "antd";
+import { Select, Checkbox, Row, Col, Button, Table, Space, Input } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
-import { deleteRule, getCauhinh, getRule } from "../api";
+import { addRule, deleteRule, getCauhinh, getRule } from "../api";
 
 const { Option } = Select;
 
@@ -15,6 +15,7 @@ export default function RulePage() {
   const [ruleVP, setRuleVP] = useState("");
   const [listRule, setListRule] = useState([]);
   const [listCauHinh, setListCauHinh] = useState([]);
+  const [key, setkey] = useState("");
 
   const columns = [
     {
@@ -45,7 +46,12 @@ export default function RulePage() {
       ),
     },
   ];
-
+  const handleAddRules = async () => {
+    const response = await addRule(
+      `${key} ${vetrai.join("^")} ${vephai.join("^")} `
+    );
+    console.log(key, vetrai.join("^"), vephai.join("^"));
+  };
   const handleChange = (value) => {
     setRule(value);
   };
@@ -137,6 +143,12 @@ export default function RulePage() {
             Thêm
           </Button>
         </Col>
+        <Col span={6}>
+          <Input
+            placeholder="nhập key "
+            onChange={(e) => setkey(e.target.value)}
+          />
+        </Col>
       </Row>
       <Row style={{ marginTop: 20 }}>
         <h2>Luật:</h2>
@@ -153,7 +165,9 @@ export default function RulePage() {
           span={24}
           style={{ display: "flex", justifyContent: "space-around" }}
         >
-          <Button type="primary">Thêm mới</Button>
+          <Button type="primary" onClick={handleAddRules}>
+            Thêm mới
+          </Button>
           <Button type="primary">Loại bỏ luật dư thừa</Button>
         </Col>
       </Row>

@@ -48,6 +48,21 @@ export const getCpu = (params) => {
     },
   });
 };
+export const addRule = (key, vephai, vetrai) => {
+  return axios.post(
+    `${baseUrl}/api/rules`,
+    {
+      key: key,
+      vephai: vephai,
+      vetrai: vetrai,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+};
 export const getketQua = (params) => {
   return axios.post(
     `${baseUrl}/api/tu-van/`,
