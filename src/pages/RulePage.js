@@ -1,8 +1,26 @@
 import React, { useEffect, useState } from "react";
 import HomeLayout from "../components/HomeLayout";
-import { Select, Checkbox, Row, Col, Button, Table, Space, Input } from "antd";
-import { ArrowRightOutlined } from "@ant-design/icons";
-import { addRule, deleteRule, getCauhinh, getRule } from "../api";
+import {
+  Select,
+  Checkbox,
+  Row,
+  Col,
+  Button,
+  Table,
+  Space,
+  Input,
+  Modal,
+  Spin,
+} from "antd";
+import { ArrowRightOutlined, LoadingOutlined } from "@ant-design/icons";
+import {
+  addRule,
+  deleteRule,
+  getCauhinh,
+  getRule,
+  removeRedundant,
+  removeRedundantRule,
+} from "../api";
 
 const { Option } = Select;
 
@@ -16,6 +34,10 @@ export default function RulePage() {
   const [listRule, setListRule] = useState([]);
   const [listCauHinh, setListCauHinh] = useState([]);
   const [key, setkey] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [data, setData] = useState([]);
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const columns = [
     {
@@ -47,10 +69,7 @@ export default function RulePage() {
     },
   ];
   const handleAddRules = async () => {
-    const response = await addRule(
-      `${key} ${vetrai.join("^")} ${vephai.join("^")} `
-    );
-    console.log(key, vetrai.join("^"), vephai.join("^"));
+    await addRule(`${key} ${vetrai.join("^")} ${vephai.join("^")} `);
   };
   const handleChange = (value) => {
     setRule(value);
@@ -68,6 +87,20 @@ export default function RulePage() {
     setStatusVP(e.target.checked);
   };
 
+  const handleRemoveRedundantRule = async () => {
+    setIsVisible(true);
+    setIsLoading(true);
+
+    const response = await removeRedundantRule();
+    const { data } = response.data;
+    setData(data);
+    setIsLoading(false);
+  };
+
+  const handleCancel = () => {
+    setIsVisible(false);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const dataRule = await getRule();
@@ -80,6 +113,13 @@ export default function RulePage() {
 
   const onDelete = async (key) => {
     await deleteRule(key);
+  };
+
+  const handleOk = async () => {
+    setConfirmLoading(true);
+    if (data.length) await removeRedundant(data.map((e) => e.key));
+    setConfirmLoading(false);
+    window.location = "/rule";
   };
 
   return (
@@ -168,7 +208,9 @@ export default function RulePage() {
           <Button type="primary" onClick={handleAddRules}>
             Thêm mới
           </Button>
-          <Button type="primary">Loại bỏ luật dư thừa</Button>
+          <Button type="primary" onClick={handleRemoveRedundantRule}>
+            Loại bỏ luật dư thừa
+          </Button>
         </Col>
       </Row>
       <Row style={{ marginTop: 20 }}>
@@ -179,6 +221,37 @@ export default function RulePage() {
           <Table dataSource={listRule} columns={columns} />
         </Col>
       </Row>
+
+      <Modal
+        title=""
+        visible={isVisible}
+        onCancel={handleCancel}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        width={900}
+        okText="Loại bỏ"
+        cancelText="Huỷ"
+      >
+        {isLoading ? (
+          <div style={{ textAlign: "center" }}>
+            <h2>Đang tìm kiếm luật dư thừa</h2>
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+            />
+          </div>
+        ) : (
+          <div>
+            <h2 style={{ textAlign: "center" }}>
+              Đã tìm thấy {data.length} luật dư thừa
+            </h2>
+            {data.length ? (
+              <h3>Các luật dư thừa là: {data.map((e) => e.key).join(",")}</h3>
+            ) : (
+              ""
+            )}
+          </div>
+        )}
+      </Modal>
     </HomeLayout>
   );
 }

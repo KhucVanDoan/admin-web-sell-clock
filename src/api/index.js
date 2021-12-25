@@ -74,18 +74,21 @@ export const getketQua = (params) => {
     }
   );
 };
-export const postAnswer = (questionId, resultId, answerId) => {
+export const removeRedundant = (data) => {
   return axios.post(
-    `${baseUrl}/api/answer/submit`,
-    {
-      question_id: questionId,
-      result_id: resultId,
-      answer_id: answerId,
-    },
+    `${baseUrl}/api/rule/remove-redundant`,
+    { rules: data },
     {
       headers: {
         "Content-Type": "application/json",
       },
     }
   );
+};
+export const removeRedundantRule = () => {
+  return axios.get(`${baseUrl}/api/remove-redundant-rule`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 };

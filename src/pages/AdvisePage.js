@@ -1,4 +1,4 @@
-import { Button, Col, Image, Row, Steps } from "antd";
+import { Button, Col, Image, Row, Steps, Table } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import React, { useEffect, useState } from "react";
 import { getketQua, getOneCauHinh } from "../api";
@@ -18,8 +18,11 @@ export default function AdvisePage() {
   const [valueTwo, setValueTwo] = useState();
   const [valueThree, setValueThree] = useState();
   const [valueFour, setValueFour] = useState();
-  const [valueFive, setValueFive] = useState([]);
-  const [result, setResult] = useState({});
+  const [valueFive, setValueFive] = useState();
+  const [result, setResult] = useState([]);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [data, setData] = useState([]);
 
   const next = () => {
     setCurrent(current + 1);
@@ -45,20 +48,27 @@ export default function AdvisePage() {
     fetchData();
   }, []);
   const handleClick = async () => {
-    const response = await getketQua(
-      `${valueOne} ^ ${valueTwo} ^ ${valueThree} ^ ${valueFour} ^ ${valueFive}`
-    );
-    setResult(response.data.laptop[0]);
+    const body = [valueOne, valueTwo, valueThree, valueFour, valueFive]
+      .filter((e) => e !== null && e !== undefined && e !== "")
+      .join(" ^ ");
+    const response = await getketQua(body);
+    console.log(body);
+    setResult(response.data.laptop);
+    setData(response.data.data);
 
     if (response.data.success) {
       setIsModalVisible(true);
     }
   };
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  const handleCancelGT = () => {
+    setIsVisible(false);
+  };
+
   const steps = [
     {
       title: "Mục đích",
@@ -81,6 +91,60 @@ export default function AdvisePage() {
       content: <CheckboxCustom setValue={setValueFive} array={stepFive} />,
     },
   ];
+
+  const columns = [
+    {
+      title: "STT",
+      dataIndex: "index",
+      key: "index",
+    },
+    {
+      title: "r",
+      dataIndex: "r",
+      key: "r",
+    },
+    {
+      title: "TG",
+      dataIndex: "TG",
+      key: "TG",
+    },
+    {
+      title: "SAT",
+      key: "SAT",
+      dataIndex: "SAT",
+    },
+  ];
+
+  // Bắt đầu xử lý giải thích suy diễn tiễn
+  let r = "";
+  let TG = `${valueOne},${valueTwo},${valueThree},${valueFour},${
+    valueFive ? valueFive : ""
+  }`.replaceAll(" ^ ", ",");
+  const dataGT = [];
+  const SAT = data.map((e) => e.key);
+
+  for (let i = 0; i <= data.length; i++) {
+    if (i > 0) {
+      SAT.shift();
+      r = data[i - 1].key;
+    }
+
+    if (
+      i <= data.length &&
+      i > 0 &&
+      TG.split(",").indexOf(data[i - 1].vephai) === -1
+    ) {
+      TG = `${TG}${data[i - 1].vephai},`.replace(" ^ ", ",");
+    }
+
+    dataGT.push({
+      index: i,
+      r,
+      TG,
+      SAT: SAT.join(","),
+    });
+  }
+  // Kết thúc xử lý giải thích suy diễn tiễn
 
   return (
     <HomeLayout>
@@ -111,6 +175,7 @@ export default function AdvisePage() {
         )}
       </div>
 
+      {/* Modal result */}
       <Modal
         footer={null}
         title=""
@@ -118,69 +183,105 @@ export default function AdvisePage() {
         onCancel={handleCancel}
         width={900}
       >
-        {result ? (
-          <div>
-            <h2>{result.name}</h2>
-            <Row>
-              <Col span={12}>
-                <Image
-                  width={400}
-                  src={result.avatar}
-                  style={{ textAlign: "center" }}
-                />
-              </Col>
-              <Col span={12}>
-                <div style={{ marginLeft: 20 }}>
-                  <p>{result.price}</p>
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <p>Thông tin cấu hình</p>
-                  </div>
-                  <div>
-                    <table>
-                      <tr>
-                        <th>RAM</th>
-                        <td>{result.RAM}</td>
-                      </tr>
-                      <tr>
-                        <th>CPU</th>
-                        <td>{result.CPU}</td>
-                      </tr>
-                      <tr>
-                        <th>ROM</th>
-                        <td>{result.ROM}</td>
-                      </tr>
-                      <tr>
-                        <th>screen</th>
-                        <td>{result.screen}</td>
-                      </tr>
-                      <tr>
-                        <th>Card</th>
-                        <td>{result.card}</td>
-                      </tr>
-                      <tr>
-                        <th>Hệ điều hành</th>
-                        <td>{result.os}</td>
-                      </tr>
-                      <tr>
-                        <th>Kích thước</th>
-                        <td>{result.size}</td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          </div>
-        ) : (
-          <h2>Không tìm được máy tính theo yêu cầu của bạn</h2>
-        )}
-        <div style={{ marginTop: 10 }}>
-          <Button type="primary" style={{ marginLeft: 40 }}>
+        <div style={{ marginBottom: 10 }}>
+          <Button
+            type="primary"
+            style={{ marginLeft: 40 }}
+            onClick={() => setIsVisible(true)}
+          >
             Giải thích
           </Button>
         </div>
+        {result.length ? (
+          result.map((e) => (
+            <div>
+              <h2>{e.name}</h2>
+              <Row>
+                <Col span={12}>
+                  <Image
+                    width={400}
+                    src={e.avatar}
+                    style={{ textAlign: "center" }}
+                  />
+                </Col>
+                <Col span={12}>
+                  <div style={{ marginLeft: 20 }}>
+                    <p style={{ color: "red", fontWeight: "bold" }}>
+                      {e.price.toLocaleString("it-IT", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </p>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <p style={{ fontWeight: "bold" }}>Thông tin cấu hình</p>
+                    </div>
+                    <div>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td style={{ fontWeight: "bold" }}>RAM</td>
+                            <td>{e.RAM}</td>
+                          </tr>
+                          <tr>
+                            <td style={{ fontWeight: "bold" }}>CPU</td>
+                            <td>{e.CPU}</td>
+                          </tr>
+                          <tr>
+                            <td style={{ fontWeight: "bold" }}>ROM</td>
+                            <td>{e.ROM}</td>
+                          </tr>
+                          <tr>
+                            <td style={{ fontWeight: "bold" }}>screen</td>
+                            <td>{e.screen}</td>
+                          </tr>
+                          <tr>
+                            <td style={{ fontWeight: "bold" }}>Card</td>
+                            <td>{e.card}</td>
+                          </tr>
+                          <tr>
+                            <td style={{ fontWeight: "bold" }}>Hệ điều hành</td>
+                            <td>{e.os}</td>
+                          </tr>
+                          <tr>
+                            <td style={{ fontWeight: "bold" }}>Kích thước</td>
+                            <td>{e.size}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            </div>
+          ))
+        ) : (
+          <h2 style={{ textAlign: "center" }}>
+            Không tìm được máy tính theo yêu cầu của bạn
+          </h2>
+        )}
+      </Modal>
+
+      {/* Modal giải thích */}
+      <Modal
+        footer={null}
+        title=""
+        visible={isVisible}
+        onCancel={handleCancelGT}
+        width={1200}
+      >
+        <h4 style={{ textAlign: "center", textTransform: "uppercase" }}>
+          Dựa vào những thông tin bạn vừa chọn, ta có bảng giải thích bằng thuật
+          toán suy diễn tiến như sau
+        </h4>
+        <Table columns={columns} dataSource={dataGT} pagination={false} />
+        <h2 style={{ textAlign: "center" }}>
+          Bạn đã tìm được {result.length} cái laptop phù hợp
+        </h2>
       </Modal>
     </HomeLayout>
   );

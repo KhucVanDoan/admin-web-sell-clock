@@ -12,13 +12,12 @@ export default function CheckboxCustom(props) {
     props.array.forEach((e) => {
       data[e.value] = e.key;
     });
-    console.log(list.map((e) => data[e]));
-    props.setValue(list.map((e) => data[e]));
+    props.setValue(list.map((e) => data[e]).join(" ^ "));
   };
 
   return (
     <CheckboxGroup
-      options={props.array.map((e) => e.value)}
+      options={[...props.array.map((e) => e.value), "Không"]}
       value={checkedList}
       onChange={onChange}
     />
