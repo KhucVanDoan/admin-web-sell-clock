@@ -60,7 +60,6 @@ export default function RulePage() {
       key: "hanhdong",
       render: (text, record) => (
         <Space size="middle">
-          <Button type="primary">Sửa {record.key}</Button>
           <Button onClick={() => onDelete(record.key)} type="primary" danger>
             Xoá {record.key}
           </Button>
