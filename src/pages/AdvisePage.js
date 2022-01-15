@@ -129,11 +129,7 @@ export default function AdvisePage() {
       r = data[i - 1].key;
     }
 
-    if (
-      i <= data.length &&
-      i > 0 &&
-      TG.split(",").indexOf(data[i - 1].vephai) === -1
-    ) {
+    if (i > 0 && TG.split(",").indexOf(data[i - 1].vephai) === -1) {
       TG = `${TG}${data[i - 1].vephai},`.replace(" ^ ", ",");
     }
 
