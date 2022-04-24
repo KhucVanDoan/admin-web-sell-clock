@@ -1,13 +1,6 @@
 import { Layout, Menu } from "antd";
 import React, { useState } from "react";
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  QuestionCircleOutlined,
-  ContainerOutlined,
-  InfoCircleOutlined,
-  LaptopOutlined,
-} from "@ant-design/icons";
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
@@ -26,28 +19,22 @@ export default function HomeLayout({ children }) {
       }}
     >
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="logo">HCG</div>
+        <div className="logo">WATCH</div>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-          <Menu.Item key="1" icon={<QuestionCircleOutlined />}>
-            <Link to="/">Tư vấn</Link>
+          <Menu.Item key="1">
+            <Link to="/">hi</Link>
           </Menu.Item>
-          <Menu.SubMenu
-            key="sub3"
-            icon={<ContainerOutlined />}
-            title="Cơ sở tri thức"
-          >
-            <Menu.Item key="9" icon={<LaptopOutlined />}>
-              <Link to="/laptop">Laptop</Link>
-            </Menu.Item>
-            <Menu.Item key="10" icon={<ContainerOutlined />}>
-              <Link to="/cauhinh">Cấu hình</Link>
-            </Menu.Item>
-            <Menu.Item key="11" icon={<ContainerOutlined />}>
-              <Link to="/rule">Tập luật</Link>
-            </Menu.Item>
-          </Menu.SubMenu>
-          <Menu.Item key="3" icon={<InfoCircleOutlined />}>
-            <Link to="/thongtin">Thông tin</Link>
+          <Menu.Item key="2">
+            <Link to="/category">Quản lý Danh mục</Link>
+          </Menu.Item>
+          <Menu.Item key="3">
+            <Link to="/products">Quản lý sản phẩm</Link>
+          </Menu.Item>
+          <Menu.Item key="4">
+            <Link to="/cauhinh">Quản lý Đơn hàng</Link>
+          </Menu.Item>
+          <Menu.Item key="5">
+            <Link to="/rule">Quản lý tài khoản</Link>
           </Menu.Item>
         </Menu>
       </Sider>
