@@ -1,6 +1,11 @@
 import { Layout, Menu } from "antd";
 import React, { useState } from "react";
-import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  HomeOutlined,
+  BarsOutlined,
+} from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
@@ -21,20 +26,20 @@ export default function HomeLayout({ children }) {
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">WATCH</div>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-          <Menu.Item key="1">
-            <Link to="/">hi</Link>
+          <Menu.Item key="1" icon={<HomeOutlined />}>
+            <Link to="/">Dashboard</Link>
           </Menu.Item>
-          <Menu.Item key="2">
+          <Menu.Item key="2" icon={<BarsOutlined />}>
             <Link to="/category">Quản lý Danh mục</Link>
           </Menu.Item>
-          <Menu.Item key="3">
+          <Menu.Item key="3" icon={<BarsOutlined />}>
             <Link to="/products">Quản lý sản phẩm</Link>
           </Menu.Item>
-          <Menu.Item key="4">
-            <Link to="/cauhinh">Quản lý Đơn hàng</Link>
+          <Menu.Item key="4" icon={<BarsOutlined />}>
+            <Link to="/saleOrder">Quản lý Đơn hàng</Link>
           </Menu.Item>
-          <Menu.Item key="5">
-            <Link to="/rule">Quản lý tài khoản</Link>
+          <Menu.Item key="5" icon={<BarsOutlined />}>
+            <Link to="/accout">Quản lý tài khoản</Link>
           </Menu.Item>
         </Menu>
       </Sider>

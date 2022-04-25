@@ -1,29 +1,25 @@
 import { useRoutes } from "react-router-dom";
 import "./App.css";
-import AdvisePage from "./pages/AdvisePage";
+import Accout from "./pages/accout";
 import CreateCategory from "./pages/category/form-category/create-form";
 import EditCategory from "./pages/category/form-category/edit-category";
 import ShowCategory from "./pages/category/form-category/show-category";
 import Category from "./pages/category/index";
-import Info from "./pages/Info";
+import Dashboard from "./pages/dashboard";
 import Product from "./pages/products";
 import CreateProduct from "./pages/products/form-products/create-form";
 import DetailProduct from "./pages/products/form-products/detail-product";
 import EditProduct from "./pages/products/form-products/edit-product";
-import Result from "./pages/Result";
-import RulePage from "./pages/RulePage";
+
+import SaleOrder from "./pages/saleOrder";
 const routes = [
   {
     path: "/",
-    element: <AdvisePage />,
+    element: <Dashboard />,
   },
   {
-    path: "/ketqua",
-    element: <Result />,
-  },
-  {
-    path: "/rule",
-    element: <RulePage />,
+    path: "/accout",
+    element: <Accout />,
   },
 
   {
@@ -59,8 +55,8 @@ const routes = [
     element: <DetailProduct />,
   },
   {
-    path: "/thongtin",
-    element: <Info />,
+    path: "/saleOrder",
+    element: <SaleOrder />,
   },
 ];
 

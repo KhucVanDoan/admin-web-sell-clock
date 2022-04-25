@@ -1,10 +1,12 @@
-import { Button, Space, Table } from "antd";
-import React from "react";
+import { Button, Modal, Space, Table } from "antd";
+import React, { useState } from "react";
 import { EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import HomeLayout from "../../components/HomeLayout";
 import { useNavigate } from "react-router-dom";
 export default function Category() {
   const history = useNavigate();
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [id, setId] = useState(null);
   const columns = [
     {
       title: "ID",
@@ -28,7 +30,12 @@ export default function Category() {
           <a onClick={() => history(`/category/edit/${a?.id}`)}>
             <EditOutlined />
           </a>
-          <a>
+          <a
+            onClick={() => {
+              setIsOpenModal(true);
+              setId(a?.id);
+            }}
+          >
             <DeleteOutlined />
           </a>
         </Space>
@@ -45,6 +52,14 @@ export default function Category() {
     });
   }
 
+  const handleOk = () => {
+    setIsOpenModal(false);
+  };
+
+  const handleCancel = () => {
+    setIsOpenModal(false);
+  };
+  console.log("id", id);
   return (
     <HomeLayout>
       <h2 style={{ textAlign: "center" }}>Danh sách Thương hiệu</h2>
@@ -59,8 +74,16 @@ export default function Category() {
         columns={columns}
         dataSource={dataSource}
         pagination={{ pageSize: 10 }}
-        scroll={{ y: 240 }}
+        scroll={{ y: 500 }}
       />
+      <Modal
+        title="Xóa Thương hiệu"
+        visible={isOpenModal}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <h2>Bạn có chắc chắn muốn xóa không?</h2>
+      </Modal>
     </HomeLayout>
   );
 }
