@@ -77,7 +77,7 @@ const Product = () => {
   };
   return (
     <HomeLayout>
-      <h2 style={{ textAlign: "center" }}>Danh sách Thương hiệu</h2>
+      <h2 style={{ textAlign: "center" }}>Danh sách sản phẩm</h2>
       <Button
         type="primary"
         style={{ marginLeft: "90%" }}

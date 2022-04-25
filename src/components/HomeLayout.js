@@ -25,7 +25,12 @@ export default function HomeLayout({ children }) {
     >
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">WATCH</div>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
+        <Menu
+          theme="primary"
+          mode="inline"
+          defaultSelectedKeys={["1"]}
+          style={{ margin: "5px 5px" }}
+        >
           <Menu.Item key="1" icon={<HomeOutlined />}>
             <Link to="/">Dashboard</Link>
           </Menu.Item>
